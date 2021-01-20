@@ -4,6 +4,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 let OAUTH_TOKEN = process.env.OAUTH_TOKEN;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
+// Initialize TwitchAPI Axios object.
 let TwitchAPI = refreshTwitchAPI(OAUTH_TOKEN);
 
 function refreshTwitchAPI(oauthToken) {

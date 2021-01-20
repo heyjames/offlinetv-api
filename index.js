@@ -1,6 +1,16 @@
+const express = require('express');
+const app = express();
 const fs = require('fs').promises;
-const axios = require('axios');
-const { getStreamer, getStream, refreshToken, setNewOAuthToken } = require("./services/twitchService");
+const { pause } = require("./utils");
+const {
+  getStreamer,
+  getStream,
+  refreshToken,
+  setNewOAuthToken
+} = require("./services/twitchService");
+const msg = require("./controllers/twitchController");
+
+require('./routes/routes.js')(app);
 
 async function mergeAPI(members) {
   for (let i=0; i<2; i++) {
@@ -8,7 +18,7 @@ async function mergeAPI(members) {
       try {
         const memberID = members[i].stream.id;
         const memberAlias = members[i].alias;
-        console.log(`${memberID}: ${memberAlias}`);
+        // console.log(`${memberID}: ${memberAlias}`);
 
         // Get live stream if available.
         let streamData = await getStream(memberID);
@@ -37,18 +47,19 @@ async function mergeAPI(members) {
           api.game = streamData.game_name;
           api.lastStream = streamData.started_at;
           api.title = streamData.title;
-          members[i].api.live = true;
         }
 
         // Set profile picture URL.
         if (streamerData !== undefined) {
           api.logo = streamData.profile_image_url;
         }
+
+        members[i].stream.live = true;
         
-        members[i].api = { ...members[i].api,  ...api };
+        members[i].api = api;
         console.log(`Merged ${memberAlias}..........`);
       } catch (error) {
-        console.error("error", error);
+        console.error("Failed to merge API data", error);
       }
     } else {
       console.log("Skipping non-Twitch streamers...");
@@ -58,8 +69,8 @@ async function mergeAPI(members) {
   return members;
 }
 
+// Get a new OAuth token.
 async function getNewOAuthToken() {
-  // Get a new OAuth token.
   try {
     const { data } = await refreshToken();
     if (data.success === false) throw new Error(data.message);
@@ -69,13 +80,14 @@ async function getNewOAuthToken() {
   }
 }
 
+// Test if Twitch OAuth token is valid.
 async function isTwitchOAuthTokenValid() {
   let valid = false;
 
-  // Test if Twitch OAuth token is valid.
   try {
     const response = await getStreamer("207813352");
     if (response.status === 200) {
+      console.log("OAuth token is good.");
       valid = true;
     }
   } catch (error) {
@@ -92,39 +104,55 @@ async function isTwitchOAuthTokenValid() {
   return valid;
 }
 
-
-async function refreshLoop() {
-  console.log("Checking if token is valid in loop function...");
-  // Handle invalid OAuth token.
+// Check if OAuth token is valid. If invalid, refresh token.
+async function checkOAuthToken() {
+  console.log("Current OAuth Token:", process.env.OAUTH_TOKEN);
   const valid = await isTwitchOAuthTokenValid();
   if (valid === false) {
-    const newOAuthToken = await getNewOAuthToken();
+    const newOAuthToken = await getNewOAuthToken(); // calls refresh api in services
     setNewOAuthToken(newOAuthToken);
   }
 }
 
-function pause(seconds) {
-  return new Promise(resolve => {
-      setTimeout(() => { resolve() }, seconds * 1000);
-  });
+async function mainLoop(members) {
+  let i = 0;
+  let limit = 180;
+
+  while (true) {
+    console.log("i: ", i);
+    console.log("Current OAuth Token:", process.env.OAUTH_TOKEN);
+
+    if (i === limit) {
+      console.log("Checking if token is valid after 3 hours...");
+      await checkOAuthToken();
+      i = 0;
+    }
+
+    members = await mergeAPI(members);
+  
+    // Write JSON file to file system.
+    let stringifiedMembers = JSON.stringify(members, null, 2);
+    await fs.writeFile("./data/live.json", stringifiedMembers);
+
+    await pause(60);
+    i++;
+  }
 }
 
 async function main() {
-  console.log("Hi");
-  await pause(2);
-  console.log("Bye");
-  /*
-  // Load the default JSON file.
-  let members = await fs.readFile("./public/members.json");
+  let members = await fs.readFile("./data/default.json");
   members = JSON.parse(members);
 
-  // Merge data from the Twitch API.
-  members = await mergeAPI(members);
-
-  // Write JSON file to file system.
-  let stringifiedMembers = JSON.stringify(members, null, 2);
-  await fs.writeFile("./public/live.json", stringifiedMembers);
-  */
+  await checkOAuthToken();
+  
+  mainLoop(members);
 }
 
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log('listening on port %s...', port);
+});
+
 main();
+
+console.log(msg);
