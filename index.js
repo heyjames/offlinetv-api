@@ -8,66 +8,9 @@ const {
   refreshToken,
   setNewOAuthToken
 } = require("./services/twitchService");
-const msg = require("./controllers/twitchController");
+const { mergeTwitch } = require("./controllers/twitchController");
 
 require('./routes/routes.js')(app);
-
-async function mergeAPI(members) {
-  for (let i=0; i<2; i++) {
-    if (members[i].stream.label.toLowerCase() === "twitch") {
-      try {
-        const memberID = members[i].stream.id;
-        const memberAlias = members[i].alias;
-        // console.log(`${memberID}: ${memberAlias}`);
-
-        // Get live stream if available.
-        let streamData = await getStream(memberID);
-        const streamResponse = streamData.status; // 200
-        streamData = streamData.data.data[0];
-
-        // Skip the rest of the loop if streamer isn't live.
-        if (streamData === undefined) {
-          console.log(`Skipping streamer: ${memberAlias}!!!!!!`);
-          members[i].stream.live = false;
-          members[i].api = {};
-          continue;
-        }
-
-        // Get streamer info if available
-        let streamerData = await getStreamer(memberID);
-        const streamerResponse = streamerData.status; // 200
-        streamerData = streamerData.data.data[0];
-        
-        // Initialize object to merge with members.api.
-        let api = {};
-
-        // Set live stream data.
-        if (streamData !== undefined) {
-          api.viewers = streamData.viewer_count;
-          api.game = streamData.game_name;
-          api.lastStream = streamData.started_at;
-          api.title = streamData.title;
-        }
-
-        // Set profile picture URL.
-        if (streamerData !== undefined) {
-          api.logo = streamData.profile_image_url;
-        }
-
-        members[i].stream.live = true;
-        
-        members[i].api = api;
-        console.log(`Merged ${memberAlias}..........`);
-      } catch (error) {
-        console.error("Failed to merge API data", error);
-      }
-    } else {
-      console.log("Skipping non-Twitch streamers...");
-    }
-  }
-
-  return members;
-}
 
 // Get a new OAuth token.
 async function getNewOAuthToken() {
@@ -128,7 +71,7 @@ async function mainLoop(members) {
       i = 0;
     }
 
-    members = await mergeAPI(members);
+    members = await mergeTwitch(members);
   
     // Write JSON file to file system.
     let stringifiedMembers = JSON.stringify(members, null, 2);
@@ -154,5 +97,3 @@ app.listen(port, () => {
 });
 
 main();
-
-console.log(msg);
