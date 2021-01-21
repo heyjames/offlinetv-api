@@ -4,7 +4,7 @@ const {
 } = require("../services/twitchService");
 
 async function mergeTwitch(members) {
-  for (let i=0; i<2; i++) {
+  for (let i=0; i<members.length; i++) {
     if (members[i].stream.label.toLowerCase() === "twitch") {
       try {
         const memberID = members[i].stream.id;

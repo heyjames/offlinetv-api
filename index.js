@@ -83,6 +83,13 @@ async function mainLoop(members) {
 }
 
 async function main() {
+  if (!process.env.OAUTH_TOKEN
+    || !process.env.CLIENT_ID
+    || !process.env.REFRESH_TOKEN) {
+      console.error("Set your environmental variables.");
+      process.exit(1);
+  }
+
   let members = await fs.readFile("./data/default.json");
   members = JSON.parse(members);
 
@@ -96,4 +103,4 @@ app.listen(port, () => {
   console.log('listening on port %s...', port);
 });
 
-main();
+// main();
