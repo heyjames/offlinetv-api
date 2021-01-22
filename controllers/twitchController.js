@@ -36,7 +36,7 @@ async function mergeTwitch(members) {
         if (streamData !== undefined) {
           api.viewers = streamData.viewer_count;
           api.game = streamData.game_name;
-          api.lastStream = streamData.started_at;
+          api.stream_started_at = streamData.started_at;
           api.title = streamData.title;
         }
     
@@ -46,6 +46,7 @@ async function mergeTwitch(members) {
         }
     
         members[i].stream.live = true;
+        members[i].stream.last_stream_date = new Date().toISOString();
         
         members[i].api = api;
         console.log(`Merged ${memberAlias}..........`);

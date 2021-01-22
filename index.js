@@ -59,7 +59,7 @@ async function checkOAuthToken() {
 
 async function mainLoop(members) {
   let i = 0;
-  let limit = 180;
+  let limit = 120; // pause(90) * 120 = 10800 seconds === 3 hours
 
   while (true) {
     console.log("i: ", i);
@@ -77,7 +77,7 @@ async function mainLoop(members) {
     let stringifiedMembers = JSON.stringify(members, null, 2);
     await fs.writeFile("./data/live.json", stringifiedMembers);
 
-    await pause(60);
+    await pause(90);
     i++;
   }
 }
@@ -90,7 +90,7 @@ async function main() {
       process.exit(1);
   }
 
-  let members = await fs.readFile("./data/default.json");
+  let members = await fs.readFile("./data/live.json");
   members = JSON.parse(members);
 
   await checkOAuthToken();
