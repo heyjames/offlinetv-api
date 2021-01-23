@@ -30,6 +30,7 @@ function getStream(id) {
 }
 
 function setNewOAuthToken(newOAuthToken) {
+  console.log("Token was refreshed.");
   TwitchAPI = refreshTwitchAPI(newOAuthToken);
 }
 
