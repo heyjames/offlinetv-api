@@ -1,7 +1,4 @@
-const {
-  getStreamer,
-  getStream
-} = require("../services/twitchService");
+const { getStreamer, getStream } = require('../services/twitchService');
 
 async function mergeTwitch(members) {
   for (let i=0; i<members.length; i++) {
@@ -61,4 +58,6 @@ async function mergeTwitch(members) {
   return members;
 }
 
-exports.mergeTwitch = mergeTwitch;
+module.exports = {
+  mergeTwitch
+}
