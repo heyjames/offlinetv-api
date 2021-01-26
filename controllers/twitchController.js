@@ -15,7 +15,7 @@ async function mergeTwitch(members) {
     
         // Skip the rest of the loop if streamer isn't live.
         if (streamData === undefined) {
-          console.log(`Skipping streamer: ${memberAlias}!!!!!!`);
+          console.log(`Skipping ${memberAlias}...`);
           members[i].stream.live = false;
           members[i].api = {};
           continue;
@@ -46,7 +46,7 @@ async function mergeTwitch(members) {
         members[i].stream.last_stream_date = new Date().toISOString();
         
         members[i].api = api;
-        console.log(`Merged ${memberAlias}..........`);
+        console.log(`Merged ${memberAlias}...`);
       } catch (error) {
         console.error("Failed to merge API data", error);
       }

@@ -9,7 +9,7 @@ const remoteURL = "http://localhost:3000";
 const corsOptions = {
   origin: remoteURL,
   optionsSuccessStatus: 200
-}
+};
 
 router.get('/', cors(corsOptions), async (req, res) => {
   let members = await fs.readFile(filePath);
