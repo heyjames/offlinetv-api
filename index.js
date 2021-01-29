@@ -19,16 +19,19 @@ app.listen(port, () => {
 set OAUTH_TOKEN=
 set CLIENT_ID=
 set REFRESH_TOKEN=
+set YOUTUBE_API_KEY=
 //////////////////////////////////////////
 // Windows Powershell/////////////////////
 $Env:OAUTH_TOKEN = ""
 $Env:CLIENT_ID = ""
 $Env:REFRESH_TOKEN = ""
+$Env:YOUTUBE_API_KEY = ""
 //////////////////////////////////////////
 // MacOS or Linux Terminal ///////////////
 export OAUTH_TOKEN=
 export CLIENT_ID=
 export REFRESH_TOKEN=
+export YOUTUBE_API_KEY=
 //////////////////////////////////////////
 
 
