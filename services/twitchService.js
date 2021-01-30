@@ -21,12 +21,14 @@ function refreshToken() {
   return axios.get("https://twitchtokengenerator.com/api/refresh/" + REFRESH_TOKEN);
 }
 
-function getStreamer(id) {
-  return TwitchAPI.get(`users?id=${id}`);
+async function getStreamer(id) {
+  const { data } = await TwitchAPI.get(`users?id=${id}`);
+  return data.data[0];
 }
 
-function getStream(id) {
-  return TwitchAPI.get(`streams?user_id=${id}&first=1`);
+async function getStream(id) {
+  const { data } = await TwitchAPI.get(`streams?user_id=${id}&first=1`);
+  return data.data[0];
 }
 
 function setNewOAuthToken(newOAuthToken) {
