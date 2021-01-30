@@ -2,7 +2,7 @@ const { getStreamer, getStream } = require('../services/twitchService');
 const {
   getYouTubeChannel,
   getYouTubeLiveVideoStats,
-  getLiveStreamStatus,
+  getYouTubeChannelHTML,
   getYouTubeLiveVideoTitle
 } = require('../services/youtubeService');
 
@@ -23,7 +23,29 @@ function mapTwitchData(streamData, streamerData) {
   return api;
 }
 
-async function mergeTwitch(members) {
+function mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData) {
+  const api = {};
+  
+  if (liveVideoStats) {
+    api.viewers = parseInt(liveVideoStats.items[0].liveStreamingDetails.concurrentViewers);
+    // api.game = streamData.items[0].snippet.game_name; TODO: Find game name.
+    api.game = "";
+    api.stream_started_at = liveVideoStats.items[0].liveStreamingDetails.actualStartTime;
+  }
+
+  if (liveVideoTitle) {
+    api.title = liveVideoTitle.items[0].snippet.title;
+  }
+
+  const isValidUser = (streamerData.pageInfo.totalResults > 0);
+  if (isValidUser) {
+    api.logo = streamerData.items[0].snippet.thumbnails.default.url;
+  }
+
+  return api;
+}
+
+async function mergeDataToModel(members) {
   for (let i=0; i<members.length; i++) {
 
     if (members[i].stream.label.toLowerCase() === "twitch") {
@@ -67,14 +89,11 @@ async function mergeTwitch(members) {
         const memberPlatform = members[i].stream.label;
         const memberAlias = members[i].alias;
         const channelURL = members[i].stream.url;
-
-        let liveVideoID = "";
-        let livestreamURL = "";
-
-        let api = {};
+        let liveVideoID = ""; // Unique video ID contained in YouTube URLs.
+        let livestreamURL = ""; // Will become the full YouTube live video URL.
 
         // Parse the channel's main page for a live stream indicator.
-        const { data: result } = await getLiveStreamStatus(channelURL);
+        const { data: result } = await getYouTubeChannelHTML(channelURL);
         const isStreaming = /{"text":" watching"}/g.test(result);
 
         // Skip the rest of the loop if streamer isn't live.
@@ -83,10 +102,9 @@ async function mergeTwitch(members) {
           members[i].stream.live = false;
           members[i].stream.url_alt = "";
           members[i].api = {};
+
           continue;
         }
-        
-        // If streamer is live streaming...
 
         // Get and set the live stream's video ID.
         if (isStreaming === true) {
@@ -95,44 +113,24 @@ async function mergeTwitch(members) {
           livestreamURL = "https://www.youtube.com/watch?v=" + liveVideoID;
         }
         
-        //////////////////////////////////////////////////////////////////////////
-        // Get streamer info (channel avatar)
-        const { data: streamerData } = await getYouTubeChannel(memberID);
-        const isValidUser = (streamerData.pageInfo.totalResults > 0);
-        // Set profile picture URL.
-        if (isValidUser) {
-          api.logo = streamerData.items[0].snippet.thumbnails.default.url;
-        }
-        //////////////////////////////////////////////////////////////////////////
-
-        
-        //////////////////////////////////////////////////////////////////////////
-        // Get the live video info from the video ID like view count, start time.
+        // Get video's view count, start time, and title.
         const { data: liveVideoStats } = await getYouTubeLiveVideoStats(liveVideoID);
-        // Get the live video title from the video ID.
         const { data: liveVideoTitle } = await getYouTubeLiveVideoTitle(liveVideoID);
-        // console.log("liveVideoTitle.items[0].snippet:", liveVideoTitle.items[0].snippet);
-        // const isStreamingCheck2 = liveVideoTitle.items[0].snippet.liveBroadcastContent; // live vs none: string type
+        const { data: streamerData } = await getYouTubeChannel(memberID);
         
-        // Map live stream data.
-        api.viewers = parseInt(liveVideoStats.items[0].liveStreamingDetails.concurrentViewers);
-        // api.game = streamData.items[0].snippet.game_name; TODO: Find game name.
-        api.game = "";
-        api.stream_started_at = liveVideoStats.items[0].liveStreamingDetails.actualStartTime;
-        api.title = liveVideoTitle.items[0].snippet.title;
-        //////////////////////////////////////////////////////////////////////////
+        const api = mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData);
+        members[i].api = api;
 
-
-
-
+        // Set miscellaneous stream metadata
         members[i].stream.live = true;
         members[i].stream.url_alt = livestreamURL;
         members[i].stream.last_stream_date = new Date().toISOString();
         
-        members[i].api = api;
         console.log(`Merged ${memberAlias} [${memberPlatform}]`); 
       } catch (error) {
         console.error("Failed to merge YouTube API data", error);
+        // TODO: Add an error property to the JSON model to indicate that 
+        // something went wrong retrieving a specific user.
       }
     } else {
       console.log("Skipping non-Twitch streamers...");
@@ -143,5 +141,5 @@ async function mergeTwitch(members) {
 }
 
 module.exports = {
-  mergeTwitch
+  mergeDataToModel
 }

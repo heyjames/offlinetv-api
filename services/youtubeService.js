@@ -21,12 +21,12 @@ function getYouTubeLiveVideoTitle(id) {
   return axios.get(url);
 }
 
-function getLiveStreamStatus(url) {
+function getYouTubeChannelHTML(url) {
   return axios.get(url);
 }
 
 exports.getYouTubeStream = getYouTubeStream;
 exports.getYouTubeChannel = getYouTubeChannel;
 exports.getYouTubeLiveVideoStats = getYouTubeLiveVideoStats;
-exports.getLiveStreamStatus = getLiveStreamStatus;
+exports.getYouTubeChannelHTML = getYouTubeChannelHTML;
 exports.getYouTubeLiveVideoTitle = getYouTubeLiveVideoTitle;

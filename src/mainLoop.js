@@ -1,6 +1,6 @@
 const { pause } = require('./utils');
 const { loadMembers, saveMembers } = require('../services/memberService');
-const { mergeTwitch } = require('../controllers/twitchController');
+const { mergeDataToModel } = require('../controllers/mergeController');
 
 async function updateMembersLoop() {
   try {
@@ -18,9 +18,9 @@ async function updateMembersLoop() {
       //   i = 0;
       // }
 
-      members = await mergeTwitch(members);
+      members = await mergeDataToModel(members);
       await saveMembers(members);
-      await pause(300);
+      await pause(600);
       
       i++;
     }
