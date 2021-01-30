@@ -47,19 +47,18 @@ function mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData) {
 
 async function mergeDataToModel(members) {
   for (let i=0; i<members.length; i++) {
-
+    const memberID = members[i].stream.id;
+    const memberPlatform = members[i].stream.label;
+    const memberAlias = members[i].alias;
+  
     if (members[i].stream.label.toLowerCase() === "twitch") {
       try {
-        const memberID = members[i].stream.id;
-        const memberPlatform = members[i].stream.label;
-        const memberAlias = members[i].alias;
-      
         // Get channel data
         const streamData = await getStream(memberID);
 
         // Skip if channel is literally offline
         if (streamData === undefined) {
-          console.log(`...............Skipping [${memberPlatform}] ${memberAlias}`);
+          console.log(`...............Skipping [Not Live] [${memberPlatform}] ${memberAlias}`);
 
           // Set miscellaneous stream metadata
           members[i].stream.live = false;
@@ -98,7 +97,7 @@ async function mergeDataToModel(members) {
 
         // Skip the rest of the loop if streamer isn't live.
         if (isStreaming === false) {
-          console.log(`...............Skipping [${memberPlatform}] ${memberAlias}`);
+          console.log(`...............Skipping [Not Live] [${memberPlatform}] ${memberAlias}`);
           members[i].stream.live = false;
           members[i].stream.url_alt = "";
           members[i].api = {};
@@ -133,7 +132,7 @@ async function mergeDataToModel(members) {
         // something went wrong retrieving a specific user.
       }
     } else {
-      console.log("Skipping non-Twitch streamers...");
+      console.log(`...............Skipping [Unsupported] [${memberPlatform}] ${memberAlias}`);
     }
   }
 
