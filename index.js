@@ -7,7 +7,7 @@ require('./src/routes')(app);
 // require('../controllers/tokenController');
 // require('./src/mainLoop');
 
-const port = config.get("port") || 3002;
+const port = process.env.PORT || config.get("port");
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 });
