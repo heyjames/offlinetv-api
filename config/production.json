@@ -1,6 +1,6 @@
 {
   "name": "OTV Dashboard - Production",
-  "port": "3001",
+  "port": "",
   "cors_url": "",
   "oauth_token": "",
   "client_id": "",
