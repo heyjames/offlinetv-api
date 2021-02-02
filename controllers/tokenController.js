@@ -1,11 +1,11 @@
 const { setNewOAuthToken } = require('../services/twitchService');
 const { isTwitchOAuthTokenValid, getNewOAuthToken } = require('./twitchOAuthController');
-
+const config = require("config");
 
 // Check if OAuth token is valid. If invalid, refresh token.
 async function checkOAuthToken(platform) {
   if (platform === "Twitch") {
-    console.log(`Current ${platform} OAuth Token:`, process.env.OAUTH_TOKEN);
+    console.log(`Current ${platform} OAuth Token:`, config.get("oauth_token"));
 
     const valid = await isTwitchOAuthTokenValid();
     if (valid === false) {

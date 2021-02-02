@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs').promises;
+const config = require("config");
 const cors = require('cors');
 
 const filePath = "./data/live.json";
-const remoteURL = "http://localhost:3000";
+const remoteURL = config.get("cors_url");
 
 const corsOptions = {
   origin: remoteURL,

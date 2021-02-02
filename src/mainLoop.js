@@ -1,6 +1,7 @@
 const { pause } = require('./utils');
 const { loadMembers, saveMembers } = require('../services/memberService');
 const { mergeDataToModel } = require('../controllers/mergeController');
+const config = require("config");
 
 async function updateMembersLoop() {
   try {
@@ -10,7 +11,7 @@ async function updateMembersLoop() {
 
     while (true) {
       console.log("i:", i);
-      console.log("Current OAuth Token:", process.env.OAUTH_TOKEN);
+      console.log("Current OAuth Token:", config.get("oauth_token"));
 
       // if (i === limit) {
       //   console.log("Checking if token is valid after 3 hours...");

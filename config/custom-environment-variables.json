@@ -1,0 +1,7 @@
+{
+  "cors_url": "cors_url",
+  "oauth_token": "oauth_token",
+  "client_id": "client_id",
+  "refresh_token": "refresh_token",
+  "youtube_api_key": "youtube_api_key"
+}

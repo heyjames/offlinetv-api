@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
+const config = require("config");
 
 require('./src/startup');
 require('./src/routes')(app);
 // require('../controllers/tokenController');
 // require('./src/mainLoop');
 
-const port = process.env.PORT || 3001;
+const port = config.get("port") || 3002;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 });
@@ -16,22 +17,25 @@ app.listen(port, () => {
 // How to setup environmental variables //
 //////////////////////////////////////////
 // Windows Command Prompt/////////////////
-set OAUTH_TOKEN=
-set CLIENT_ID=
-set REFRESH_TOKEN=
-set YOUTUBE_API_KEY=
+set oauth_token=
+set client_id=
+set refresh_token=
+set youtube_api_key=
+set cors_url=
 //////////////////////////////////////////
 // Windows Powershell/////////////////////
-$Env:OAUTH_TOKEN = ""
-$Env:CLIENT_ID = ""
-$Env:REFRESH_TOKEN = ""
-$Env:YOUTUBE_API_KEY = ""
+$Env:oauth_token = ""
+$Env:client_id = ""
+$Env:refresh_token = ""
+$Env:youtube_api_key = ""
+$Env:cors_url = ""
 //////////////////////////////////////////
 // MacOS or Linux Terminal ///////////////
-export OAUTH_TOKEN=
-export CLIENT_ID=
-export REFRESH_TOKEN=
-export YOUTUBE_API_KEY=
+export oauth_token=
+export client_id=
+export refresh_token=
+export youtube_api_key=
+export cors_url=
 //////////////////////////////////////////
 
 

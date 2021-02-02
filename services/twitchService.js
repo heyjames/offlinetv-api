@@ -1,8 +1,9 @@
 const axios = require('axios');
+const config = require("config");
 
-const CLIENT_ID = process.env.CLIENT_ID;
-let OAUTH_TOKEN = process.env.OAUTH_TOKEN;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const CLIENT_ID = config.get("client_id");
+let OAUTH_TOKEN = config.get("oauth_token");
+const REFRESH_TOKEN = config.get("refresh_token");
 
 // Initialize TwitchAPI Axios object.
 let TwitchAPI = refreshTwitchAPI(OAUTH_TOKEN);
