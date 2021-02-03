@@ -5,7 +5,7 @@ const config = require("config");
 require('./src/startup');
 require('./src/routes')(app);
 // require('../controllers/tokenController');
-// require('./src/mainLoop');
+require('./src/mainLoop');
 
 const port = process.env.PORT || config.get("port");
 app.listen(port, () => {
