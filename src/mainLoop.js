@@ -11,7 +11,7 @@ async function updateMembersLoop() {
 
     while (true) {
       console.log("i:", i);
-      console.log("Current OAuth Token:", config.get("oauth_token"));
+      // console.log("Current OAuth Token:", config.get("oauth_token"));
 
       // if (i === limit) {
       //   console.log("Checking if token is valid after 3 hours...");
