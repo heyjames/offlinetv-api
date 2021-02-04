@@ -1,6 +1,5 @@
 {
   "name": "OTV Dashboard - Development",
-  "cors_url": "http://localhost:3000",
   "oauth_token": "",
   "client_id": "",
   "refresh_token": "",

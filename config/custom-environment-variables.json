@@ -1,5 +1,4 @@
 {
-  "cors_url": "cors_url",
   "oauth_token": "oauth_token",
   "client_id": "client_id",
   "refresh_token": "refresh_token",

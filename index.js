@@ -21,21 +21,21 @@ set oauth_token=
 set client_id=
 set refresh_token=
 set youtube_api_key=
-set cors_url=
+set port=
 //////////////////////////////////////////
 // Windows Powershell/////////////////////
 $Env:oauth_token = ""
 $Env:client_id = ""
 $Env:refresh_token = ""
 $Env:youtube_api_key = ""
-$Env:cors_url = ""
+$Env:port = ""
 //////////////////////////////////////////
 // MacOS or Linux Terminal ///////////////
 export oauth_token=
 export client_id=
 export refresh_token=
 export youtube_api_key=
-export cors_url=
+export port=
 //////////////////////////////////////////
 
 
