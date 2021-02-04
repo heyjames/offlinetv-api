@@ -11,7 +11,8 @@ const whitelist = [
   "http://otvdashboard.com",
   "https://www.otvdashboard.com",
   "http://www.otvdashboard.com",
-  "http://localhost:3000"
+  "http://localhost:3000",
+  "https://offlinetv-api.herokuapp.com"
 ];
 
 const corsOptions = {
