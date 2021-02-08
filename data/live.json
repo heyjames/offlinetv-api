@@ -39,17 +39,11 @@
         "label": "Twitch",
         "url": "https://www.twitch.tv/sykkuno",
         "url_alt": "",
-        "live": true,
+        "live": false,
         "avatar": "sykkuno-twitch.jpg",
-        "last_stream_date": "2021-02-02T05:30:39.331Z"
+        "last_stream_date": "2021-02-03T01:42:34.444Z"
       },
-      "api": {
-        "viewers": 44611,
-        "game": "Among Us",
-        "stream_started_at": "2021-02-01T22:57:41Z",
-        "title": "among us at 7",
-        "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/sykkuno-profile_image-6ab1e70e07e29e9b-300x300.jpeg"
-      },
+      "api": {},
       "links": []
     },
     {
@@ -62,7 +56,7 @@
         "url_alt": "",
         "live": false,
         "avatar": "igumdrop-twitch.jpg",
-        "last_stream_date": "2021-01-24T01:01:00.423Z"
+        "last_stream_date": "2021-02-07T23:30:57.770Z"
       },
       "api": {},
       "links": []
@@ -92,7 +86,7 @@
         "url_alt": "",
         "live": false,
         "avatar": "scarra-twitch.jpg",
-        "last_stream_date": "2021-01-30T08:43:10.409Z"
+        "last_stream_date": "2021-02-03T01:42:34.741Z"
       },
       "api": {},
       "links": []
@@ -122,7 +116,7 @@
         "url_alt": "",
         "live": false,
         "avatar": "xchocobars-twitch.jpg",
-        "last_stream_date": "2021-01-30T22:32:05.144Z"
+        "last_stream_date": "2021-02-07T23:40:59.897Z"
       },
       "api": {},
       "links": []
@@ -152,7 +146,7 @@
         "url_alt": "",
         "live": false,
         "avatar": "lilypichu-twitch.jpg",
-        "last_stream_date": "2021-01-26T02:23:13.698Z"
+        "last_stream_date": "2021-02-03T01:42:35.073Z"
       },
       "api": {},
       "links": []
@@ -180,11 +174,17 @@
         "label": "Twitch",
         "url": "https://www.twitch.tv/yvonnie",
         "url_alt": "",
-        "live": false,
+        "live": true,
         "avatar": "yvonne-twitch.jpg",
-        "last_stream_date": "2021-01-31T02:02:34.985Z"
+        "last_stream_date": "2021-02-08T00:25:59.980Z"
       },
-      "api": {},
+      "api": {
+        "viewers": 2587,
+        "game": "VALORANT",
+        "stream_started_at": "2021-02-07T22:22:53Z",
+        "title": "pewepewpew w/ leslie miyoung toast sean",
+        "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/6275856f-df6b-4366-bc9e-3069bb3cdd06-profile_image-300x300.png"
+      },
       "links": []
     },
     {
@@ -227,13 +227,13 @@
         "url_alt": "",
         "live": true,
         "avatar": "fuslie-twitch.jpg",
-        "last_stream_date": "2021-02-02T05:30:40.173Z"
+        "last_stream_date": "2021-02-08T00:26:00.253Z"
       },
       "api": {
-        "viewers": 9190,
-        "game": "Among Us",
-        "stream_started_at": "2021-02-01T21:20:34Z",
-        "title": "modded among us (no spoilers)",
+        "viewers": 11145,
+        "game": "VALORANT",
+        "stream_started_at": "2021-02-07T22:46:23Z",
+        "title": "valorant with friends :DD ",
         "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/517e697a-6768-4834-a703-c326cc1a74b5-profile_image-300x300.png"
       },
       "links": []
@@ -246,11 +246,17 @@
         "label": "Twitch",
         "url": "https://www.twitch.tv/peterparktv",
         "url_alt": "",
-        "live": false,
+        "live": true,
         "avatar": "peterparktv-twitch.jpg",
-        "last_stream_date": "2021-02-02T00:10:42.844Z"
+        "last_stream_date": "2021-02-08T00:26:00.409Z"
       },
-      "api": {},
+      "api": {
+        "viewers": 6394,
+        "game": "Just Chatting",
+        "stream_started_at": "2021-02-07T15:43:05Z",
+        "title": "YURA YURA YURA YURA | !squad !tattoos !hair",
+        "logo": "https://static-cdn.jtvnw.net/jtv_user_pictures/c09d5342-46af-40ba-bd03-de8855944de3-profile_image-300x300.png"
+      },
       "links": []
     },
     {
@@ -308,7 +314,7 @@
         "url_alt": "",
         "live": false,
         "avatar": "quarterjade-twitch.jpg",
-        "last_stream_date": "2021-01-24T06:22:40.865Z"
+        "last_stream_date": "2021-02-06T10:27:04.403Z"
       },
       "api": {},
       "links": []

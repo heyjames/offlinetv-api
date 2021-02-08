@@ -21,7 +21,7 @@ async function updateMembersLoop() {
 
       members = await mergeDataToModel(members);
       await saveMembers(members);
-      await pause(600);
+      await pause(300);
       
       i++;
     }
