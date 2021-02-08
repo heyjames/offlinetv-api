@@ -31,4 +31,16 @@ async function updateMembersLoop() {
   }
 }
 
-updateMembersLoop();
+async function membersLoop() {
+  let members = await loadMembers();
+  members = await mergeDataToModel(members);
+  await saveMembers(members);
+  console.log("membersLoop done");
+}
+
+// updateMembersLoop();
+
+membersLoop();
+let myInterval;
+if (myInterval) clearInterval(myInterval);
+myInterval = setInterval(membersLoop, 300000);
