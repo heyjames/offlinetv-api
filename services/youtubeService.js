@@ -26,8 +26,14 @@ function getYouTubeChannelHTML(url) {
   return axios.get(url);
 }
 
+// TODO: Refactor - Not DRY
+function getYouTubeLiveVideoGame(url) {
+  return axios.get(url);
+}
+
 exports.getYouTubeStream = getYouTubeStream;
 exports.getYouTubeChannel = getYouTubeChannel;
 exports.getYouTubeLiveVideoStats = getYouTubeLiveVideoStats;
 exports.getYouTubeChannelHTML = getYouTubeChannelHTML;
 exports.getYouTubeLiveVideoTitle = getYouTubeLiveVideoTitle;
+exports.getYouTubeLiveVideoGame = getYouTubeLiveVideoGame;

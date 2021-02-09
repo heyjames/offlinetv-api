@@ -3,7 +3,8 @@ const {
   getYouTubeChannel,
   getYouTubeLiveVideoStats,
   getYouTubeChannelHTML,
-  getYouTubeLiveVideoTitle
+  getYouTubeLiveVideoTitle,
+  getYouTubeLiveVideoGame
 } = require('../services/youtubeService');
 
 function mapTwitchData(streamData, streamerData) {
@@ -23,13 +24,14 @@ function mapTwitchData(streamData, streamerData) {
   return api;
 }
 
-function mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData) {
+function mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData, liveVideoGame) {
   const api = {};
+  const game = /(?<=,"title":\{"simpleText":").*?(?="},"subtitle")/g.exec(liveVideoGame)[0];
   
   if (liveVideoStats) {
     api.viewers = parseInt(liveVideoStats.items[0].liveStreamingDetails.concurrentViewers);
     // api.game = streamData.items[0].snippet.game_name; TODO: Find game name.
-    api.game = "";
+    api.game = game;
     api.stream_started_at = liveVideoStats.items[0].liveStreamingDetails.actualStartTime;
   }
 
@@ -76,7 +78,7 @@ async function mergeDataToModel(members) {
     
         // Set miscellaneous stream metadata
         members[i].stream.live = true;
-        members[i].stream.last_stream_date = new Date().toISOString();
+        members[i].stream.last_stream_date = Date.now();
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`);
       } catch (error) {
@@ -115,15 +117,16 @@ async function mergeDataToModel(members) {
         // Get video's view count, start time, and title.
         const { data: liveVideoStats } = await getYouTubeLiveVideoStats(liveVideoID);
         const { data: liveVideoTitle } = await getYouTubeLiveVideoTitle(liveVideoID);
+        const { data: liveVideoGame } = await getYouTubeLiveVideoGame(livestreamURL);
         const { data: streamerData } = await getYouTubeChannel(memberID);
         
-        const api = mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData);
+        const api = mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData, liveVideoGame);
         members[i].api = api;
 
         // Set miscellaneous stream metadata
         members[i].stream.live = true;
         members[i].stream.url_alt = livestreamURL;
-        members[i].stream.last_stream_date = new Date().toISOString();
+        members[i].stream.last_stream_date = Date.now();
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`); 
       } catch (error) {
