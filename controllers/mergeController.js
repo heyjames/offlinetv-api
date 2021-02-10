@@ -26,12 +26,11 @@ function mapTwitchData(streamData, streamerData) {
 
 function mapYouTubeData(liveVideoStats, liveVideoTitle, streamerData, liveVideoGame) {
   const api = {};
-  const game = /(?<=,"title":\{"simpleText":").*?(?="},"subtitle")/g.exec(liveVideoGame)[0];
+  const gameLabel = /(?<=,"title":\{"simpleText":").*?(?="},"subtitle")/g.exec(liveVideoGame);
   
   if (liveVideoStats) {
     api.viewers = parseInt(liveVideoStats.items[0].liveStreamingDetails.concurrentViewers);
-    // api.game = streamData.items[0].snippet.game_name; TODO: Find game name.
-    api.game = game;
+    api.game = (gameLabel !== null) ? gameLabel[0] : "";
     api.stream_started_at = liveVideoStats.items[0].liveStreamingDetails.actualStartTime;
   }
 
