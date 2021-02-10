@@ -5,7 +5,7 @@ const Redis = require('ioredis');
 // redis.on('reconnecting', () => console.log('_______________reconnecting'));
 // redis.on('end'         , () => console.log('_______________end'));
 
-const redis = new Redis();
+const redis = new Redis(process.env.REDIS_URL);
 
 redis.on("error", () => {
   console.error("Redis error occurred.");
