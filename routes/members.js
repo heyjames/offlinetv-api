@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs').promises;
 const config = require("config");
 const cors = require('cors');
+const { getMembersFromRedis } = require('../services/memberService');
 
 const filePath = "./data/live.json";
 
@@ -13,6 +14,10 @@ const whitelist = [
   "http://www.otvdashboard.com",
   "https://offlinetv-api.herokuapp.com"
 ];
+
+if (process.env.NODE_ENV === "development") {
+  whitelist.push("http://localhost:3000");
+}
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -32,8 +37,9 @@ const corsOptions = {
 // };
 
 router.get('/', cors(corsOptions), async (req, res) => {
-  let members = await fs.readFile(filePath);
-  members = JSON.parse(members);
+  // let members = await fs.readFile(filePath);
+  let members = await getMembersFromRedis();
+  // members = JSON.parse(members);
 
   res.status(200).send(members);
 });
