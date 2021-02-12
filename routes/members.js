@@ -6,16 +6,20 @@ const cors = require('cors');
 
 const filePath = "./data/live.json";
 
-const whitelist = [
-  "https://otvdashboard.com",
-  "http://otvdashboard.com",
-  "https://www.otvdashboard.com",
-  "http://www.otvdashboard.com",
-  "https://offlinetv-api.herokuapp.com"
-];
-
 const corsOptions = {
   origin: (origin, callback) => {
+    const whitelist = [
+      "https://otvdashboard.com",
+      "http://otvdashboard.com",
+      "https://www.otvdashboard.com",
+      "http://www.otvdashboard.com",
+      "https://offlinetv-api.herokuapp.com"
+    ];
+    
+    if (process.env.NODE_ENV === "development") {
+      whitelist.push("http://localhost:3000");
+    }
+  
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
