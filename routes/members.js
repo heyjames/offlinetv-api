@@ -38,14 +38,18 @@ const corsOptions = {
 
 router.get('/', cors(corsOptions), async (req, res) => {
   try {
-    let members = await fs.readFile(filePath);
-    members = JSON.parse(members);
+    let resultString = await fs.readFile(filePath);
+    resultString = JSON.parse(resultString);
+    
+    let { data: members } = resultString;
   
     for (let i=0; i<members.length; i++) {
       members[i].stream.last_stream_date = db.getLastStreamedById(members[i].id);
     }
+
+    resultString.data = members;
   
-    res.status(200).send(members);
+    res.status(200).send(resultString);
   } catch (error) {
     console.error("Failed to get members from JSON file.");
   }
