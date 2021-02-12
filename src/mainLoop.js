@@ -1,7 +1,7 @@
 const { pause } = require('./utils');
 const { loadMembers, saveMembers } = require('../services/memberService');
 const { mergeDataToModel } = require('../controllers/mergeController');
-const config = require("config");
+const config = require('config');
 
 async function updateMembersLoop() {
   try {

@@ -6,6 +6,7 @@ const {
   getYouTubeLiveVideoTitle,
   getYouTubeLiveVideoGame
 } = require('../services/youtubeService');
+const db = require('../db/queries');
 
 function mapTwitchData(streamData, streamerData) {
   const api = {};
@@ -77,7 +78,8 @@ async function mergeDataToModel(members) {
     
         // Set miscellaneous stream metadata
         members[i].stream.live = true;
-        members[i].stream.last_stream_date = Date.now();
+        // members[i].stream.last_stream_date = new Date().toISOString();
+        db.updateLastStreamed(new Date().toISOString(), members[i].id);
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`);
       } catch (error) {
@@ -125,7 +127,8 @@ async function mergeDataToModel(members) {
         // Set miscellaneous stream metadata
         members[i].stream.live = true;
         members[i].stream.url_alt = livestreamURL;
-        members[i].stream.last_stream_date = Date.now();
+        // members[i].stream.last_stream_date = new Date().toISOString();
+        db.updateLastStreamed(new Date().toISOString(), members[i].id);
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`); 
       } catch (error) {

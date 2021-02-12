@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs').promises;
 const config = require("config");
 const cors = require('cors');
+const db = require('../db/queries');
 
 const filePath = "./data/live.json";
 
@@ -36,10 +37,18 @@ const corsOptions = {
 // };
 
 router.get('/', cors(corsOptions), async (req, res) => {
-  let members = await fs.readFile(filePath);
-  members = JSON.parse(members);
-
-  res.status(200).send(members);
+  try {
+    let members = await fs.readFile(filePath);
+    members = JSON.parse(members);
+  
+    for (let i=0; i<members.length; i++) {
+      members[i].stream.last_stream_date = db.getLastStreamedById(members[i].id);
+    }
+  
+    res.status(200).send(members);
+  } catch (error) {
+    console.error("Failed to get members from JSON file.");
+  }
 });
 
 console.log("members.js loaded...");
