@@ -22,6 +22,7 @@ set client_id=
 set refresh_token=
 set youtube_api_key=
 set port=
+set NODE_ENV=<development|production>
 //////////////////////////////////////////
 // Windows Powershell/////////////////////
 $Env:oauth_token = ""
@@ -29,6 +30,7 @@ $Env:client_id = ""
 $Env:refresh_token = ""
 $Env:youtube_api_key = ""
 $Env:port = ""
+$Env:NODE_ENV=<development|production>
 //////////////////////////////////////////
 // MacOS or Linux Terminal ///////////////
 export oauth_token=
@@ -36,6 +38,7 @@ export client_id=
 export refresh_token=
 export youtube_api_key=
 export port=
+export NODE_ENV=<development|production>
 //////////////////////////////////////////
 
 
