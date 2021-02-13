@@ -35,13 +35,13 @@ async function getLastStreamed() {
 async function getLastStreamedById(id) {
   if (!id) return console.error("Could not get last streamed by id from last_streamed table. No id provided");
   
-  pool.query('SELECT * FROM last_streamed WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    
-    return results.rows[0].date;
-  })
+  try {
+    const queryText = "SELECT * FROM last_streamed WHERE id = $1";
+    const result = await pool.query(queryText, [id]);
+    return result.rows[0].date;
+  } catch (error) {
+    console.error("My error", error);
+  }
 }
 
 async function createLastStreamed(date) {

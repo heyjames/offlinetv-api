@@ -43,32 +43,19 @@ router.get('/', cors(corsOptions), async (req, res) => {
     
     let { data: members } = resultString;
   
-    for (let i=0; i<members.length; i++) {
+    for (let i=0; i<1; i++) {
       let lastStreamedAtDB = await db.getLastStreamedById(members[i].id);
-      if (i === 0) console.log("....lastStreamedAtDB:", lastStreamedAtDB);
       if (lastStreamedAtDB === ""
         || lastStreamedAtDB === undefined
         || lastStreamedAtDB === null
         || Object.keys(lastStreamedAtDB).length === 0) {
           members[i].stream.last_stream_date = "";
-          if (i === 0) console.log("triggered if");
         } else {
-          members[i].stream.last_stream_date = lastStreamedAtDB.toString();
-          if (i === 0) console.log("triggered else");
+          members[i].stream.last_stream_date = lastStreamedAtDB;
         }
-      
-      if (i === 0) {
-        console.log("Begin");
-        // console.log(typeof db.getLastStreamedById(members[i].id));
-        // console.log(await db.getLastStreamedById(members[i].id));
-      //   console.log(typeof members[i].stream.last_stream_date);
-        console.log(members[i].stream.last_stream_date);
-        console.log("End");
-      }
     }
 
     resultString.data = members;
-    console.log(members);
   
     res.status(200).send(resultString);
   } catch (error) {
