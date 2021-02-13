@@ -45,8 +45,14 @@ router.get('/', cors(corsOptions), async (req, res) => {
   
     for (let i=0; i<members.length; i++) {
       let lastStreamedAtDB = await db.getLastStreamedById(members[i].id);
-      if (!lastStreamedAtDB) lastStreamedAtDB = "";
-      members[i].stream.last_stream_date = lastStreamedAtDB;
+      if (lastStreamedAtDB === ""
+        || lastStreamedAtDB === undefined
+        || lastStreamedAtDB === null
+        || Object.keys(lastStreamedAtDB).length === 0) {
+          members[i].stream.last_stream_date = "";
+        } else {
+          members[i].stream.last_stream_date = lastStreamedAtDB.toString();
+        }
       
       // if (i === 0) {
       //   console.log("Begin");
@@ -59,6 +65,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
     }
 
     resultString.data = members;
+    console.log(members);
   
     res.status(200).send(resultString);
   } catch (error) {
