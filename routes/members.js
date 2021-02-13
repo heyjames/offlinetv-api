@@ -45,13 +45,16 @@ router.get('/', cors(corsOptions), async (req, res) => {
   
     for (let i=0; i<members.length; i++) {
       let lastStreamedAtDB = await db.getLastStreamedById(members[i].id);
+      if (i === 0) console.log("....lastStreamedAtDB:", lastStreamedAtDB);
       if (lastStreamedAtDB === ""
         || lastStreamedAtDB === undefined
         || lastStreamedAtDB === null
         || Object.keys(lastStreamedAtDB).length === 0) {
           members[i].stream.last_stream_date = "";
+          if (i === 0) console.log("triggered if");
         } else {
           members[i].stream.last_stream_date = lastStreamedAtDB.toString();
+          if (i === 0) console.log("triggered else");
         }
       
       if (i === 0) {
