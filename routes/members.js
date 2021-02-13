@@ -43,7 +43,7 @@ router.get('/', cors(corsOptions), async (req, res) => {
     
     let { data: members } = resultString;
   
-    for (let i=0; i<1; i++) {
+    for (let i=0; i<members.length; i++) {
       let lastStreamedAtDB = await db.getLastStreamedById(members[i].id);
       if (lastStreamedAtDB === ""
         || lastStreamedAtDB === undefined
