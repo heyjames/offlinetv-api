@@ -79,7 +79,7 @@ async function mergeDataToModel(members) {
         // Set miscellaneous stream metadata
         members[i].stream.live = true;
         // members[i].stream.last_stream_date = new Date().toISOString();
-        db.updateLastStreamed(new Date().toISOString(), members[i].id);
+        await db.updateLastStreamed(new Date().toISOString(), members[i].id);
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`);
       } catch (error) {
@@ -128,7 +128,7 @@ async function mergeDataToModel(members) {
         members[i].stream.live = true;
         members[i].stream.url_alt = livestreamURL;
         // members[i].stream.last_stream_date = new Date().toISOString();
-        db.updateLastStreamed(new Date().toISOString(), members[i].id);
+        await db.updateLastStreamed(new Date().toISOString(), members[i].id);
         
         console.log(`Merged ${memberAlias} [${memberPlatform}]`); 
       } catch (error) {
