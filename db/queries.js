@@ -39,7 +39,7 @@ async function getLastStreamedById(id) {
     if (error) {
       throw error
     }
-    console.log("results.rows[0].date", results.rows[0].date);
+    
     return results.rows[0].date;
   })
 }
